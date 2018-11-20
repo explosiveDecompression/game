@@ -9,6 +9,9 @@ public class UserDisplay : MonoBehaviour {
     public Text timer;
     private float count = 120f;
     public int currentDiceNumber = 0;
+    private DiceValueCalc dvc;
+    public GameObject tempDice;
+    
     
 	// Use this for initialization
 	void Start () {
@@ -21,13 +24,13 @@ public class UserDisplay : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        // dvc = tempDice.GetComponent<DiceValueCalc>();
+        // tc.text =((int) (dvc.sideFacingUp)).ToString();
 
-        bool diceRoll = Input.GetKeyDown("space");
-        if (!tc.text.Equals(currentDiceNumber.ToString())) {
-            tc.text = currentDiceNumber.ToString();
-        }
+        tc.text = currentDiceNumber.ToString();
+        
 
-        if(((int)count - Time.time) > 0)
+        if (((int)count - Time.time) > 0)
             timer.text = ((int)(count - Time.time)).ToString();
 	}
 }

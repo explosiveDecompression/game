@@ -7,6 +7,7 @@ public class FollowPlayer : MonoBehaviour {
     public Transform player;
 
     public float transitionTime;
+    public float distanceBehindPlayer;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +23,7 @@ public class FollowPlayer : MonoBehaviour {
             player.position.x,
             transform.position.y,
             player.position.z
-        ) - (player.forward*4);
+        ) - (player.forward*distanceBehindPlayer);
 
         Quaternion rot = Quaternion.Euler(
             transform.rotation.eulerAngles.x,

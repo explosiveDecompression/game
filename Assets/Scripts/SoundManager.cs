@@ -16,27 +16,68 @@ public class Sound {
 public class SoundManager : MonoBehaviour {
 
     public Sound[] sounds;
-    private Dictionary<SoundName, AudioClip> audioTable;
+    private class AudioBundle
+    {
+        public Dictionary<SoundName, AudioClip> audioTable;
+        public AudioSource source;
 
-    public AudioSource GlobalSource;
+        public bool IsPlaying()
+        {
+            return source.isPlaying;
+        }
+
+        public void Play(SoundName sound, float volume)
+        {
+            source.volume = volume;
+            source.PlayOneShot(audioTable[sound]);
+        }
+
+    }
+
+    private List<AudioBundle> GlobalSources;
+    public int maxGlobalSounds;
 
     public static SoundManager instance = null;
 
     // Use this for initialization
     void Start() {
         instance = this;
-        audioTable = new Dictionary<SoundName, AudioClip>();
-        foreach (Sound s in sounds) {
-            audioTable[s.name] = s.audio;
-        }
+        GlobalSources = new List<AudioBundle>
+        {
+            NewAudioSource()
+        };
     }
 
-    public void Play(SoundName sound, AudioSource source = null) {
-        if (source == null) {
-            source = GlobalSource;
+    private AudioBundle NewAudioSource()
+    {
+        var result = new AudioBundle()
+        {
+            source = gameObject.AddComponent<AudioSource>(),
+            audioTable = new Dictionary<SoundName, AudioClip>()
+        };
+        foreach (Sound s in sounds) {
+            result.audioTable[s.name] = Instantiate(s.audio);
         }
-        source.clip = audioTable[sound];
-        source.Play();
+        return result;
+
+    }
+
+    public void Play(SoundName sound, float volume = 1f) {
+        foreach (AudioBundle b in GlobalSources)
+        {
+            if (b.IsPlaying()) { continue; }
+            b.Play(sound, volume);
+            return;
+        }
+
+        if (GlobalSources.Count >= maxGlobalSounds)
+        {
+            Debug.Log("Max Sounds Playing at once, refusing to play: " + sound);
+            return;
+        }
+        var bundle = NewAudioSource();
+        GlobalSources.Add(bundle);
+        bundle.Play(sound, volume);
     }
 
     // Update is called once per frame

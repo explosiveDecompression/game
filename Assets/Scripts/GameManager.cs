@@ -10,15 +10,21 @@ public class GameManager : MonoBehaviour {
     public int turnsAllowed;
     public GameObject ui;
     private UserDisplay uiController;
+    private RollDice diceRoller;
+    private DiceValueCalc diceValue;
 
 	// Use this for initialization
 	void Start () {
         movementController = player.GetComponent<MovementController>();
         uiController = ui.GetComponent<UserDisplay>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        diceRoller = die.GetComponent<RollDice>();
+        diceValue = die.GetComponent<DiceValueCalc>();
+    }
+
+    private bool waitingForLanded = false;
+
+    // Update is called once per frame
+    void Update () {
         // Input Management
         bool moveForward = Input.GetKeyDown("up");
         bool turnLeft = Input.GetKeyDown("left");
@@ -38,8 +44,17 @@ public class GameManager : MonoBehaviour {
             movementController.MoveForward();
         }
 
-        if (diceRoll) {
-            uiController.currentDiceNumber = Random.Range(1, 7);
+        if (waitingForLanded && diceRoller.IsLanded())
+        {
+
+            waitingForLanded = false;
+            uiController.currentDiceNumber = diceValue.Value();
         }
+
+        if (diceRoll) {
+            diceRoller.Roll();
+            waitingForLanded = true;
+        }
+
     }
 }
