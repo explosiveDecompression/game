@@ -13,14 +13,9 @@ public class MovementController : MonoBehaviour {
         LEFT, BACK, RIGHT, FORWARD
     }
 
-    // Forward: Z+4
-    // Back: Z-4
-    // Right: X+4
-    // Left: X-4
 
     // Use this for initialization
     void Start() {
-        AnimatorStateInfo asi = new AnimatorStateInfo();
         animator = this.GetComponent<Animator>();
         animator.Play("Idle");
         SphereCollider[] colliderSet = this.GetComponents<SphereCollider>();
@@ -60,7 +55,7 @@ public class MovementController : MonoBehaviour {
     {
         if (currentMove == Move.None && moveQueue.Count > 0)
         {
-            currentMove = moveQueue.Dequeue();
+            currentMove = moveQueue.Peek();
             percentComplete = -1;
         }
 
@@ -125,6 +120,7 @@ public class MovementController : MonoBehaviour {
             transform.position = pos;
 
             currentMove = Move.None;
+            moveQueue.Dequeue();
             animator.Play("Idle");
             percentComplete = -1f;
         }
@@ -148,12 +144,57 @@ public class MovementController : MonoBehaviour {
         Debug.Log("Added Turn Right Command");
     }
 
+
+    public bool IsNotMoving()
+    {
+        return moveQueue.Count == 0;
+    }
+
     public bool CanMoveForward()
     {
         bool result = false;
-        Vector3 forward = new Vector3(0, 0, 5);
-        Vector3 backward = new Vector3(0, 0, -5);
-        transform.Translate(forward);
+
+        var moveList = moveQueue.ToList();
+
+        Vector3 finalLocation = new Vector3();
+        // This keeps all 4 directions in compass order such that turning
+        // right increments the index by +1 and turning left by -1
+        Vector3[] directions = new Vector3[] {
+            new Vector3(0, 0, 5), // forward
+            new Vector3(5, 0, 0), // right
+            new Vector3(0, 0, -5), // back
+            new Vector3(-5, 0, 0), // left
+        };
+        int currentDirectionIndex = 0;
+
+        foreach (var move in moveList)
+        {
+            switch (move)
+            {
+                case Move.Forward:
+                    finalLocation += directions[currentDirectionIndex];
+                    break;
+                case Move.Left:
+                    currentDirectionIndex -= 1;
+                    break;
+                case Move.Right:
+                    currentDirectionIndex += 1;
+                    break;
+                case Move.Back:
+                    currentDirectionIndex += 2;
+                    break;
+            }
+
+            currentDirectionIndex = currentDirectionIndex % directions.Length;
+            if (currentDirectionIndex < 0)
+            {
+                currentDirectionIndex += directions.Length;
+            }
+            // direction index must always be positive and less than the number of directions we have.
+            Debug.Assert(currentDirectionIndex < directions.Length && currentDirectionIndex >= 0);
+        }
+        finalLocation += directions[currentDirectionIndex];
+        transform.Translate(finalLocation);
         var gameObjects =
             Physics.OverlapSphere(transform.position, 1)
                    .Except<Collider>(GetComponents<Collider>())
@@ -165,7 +206,7 @@ public class MovementController : MonoBehaviour {
                 break;
             }
         }
-        transform.Translate(backward);
+        transform.Translate(finalLocation * -1);
         return result;
     }
 

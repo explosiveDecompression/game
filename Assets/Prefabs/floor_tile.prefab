@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33516166696677258}
   - component: {fileID: 23400407885389996}
   - component: {fileID: 65184166997518788}
-  - component: {fileID: 114810328321403274}
   m_Layer: 0
   m_Name: floor_tile
   m_TagString: Traversable
@@ -97,18 +96,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114810328321403274
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1328806750056852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824dd99aa633a4ce88ad32b83246a652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  snapToGrid: 1
-  snapValue: 5
-  lockSize: 1
-  sizeValue: {x: 5, y: 0.5, z: 5}
