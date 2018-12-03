@@ -51,6 +51,22 @@ public class MovementController : MonoBehaviour {
 
     private float percentComplete;
 
+    public GameObject GetFloor()
+    {
+        var gameObjects =
+            Physics.OverlapSphere(transform.position, 1)
+                   .Except<Collider>(GetComponents<Collider>())
+                   .Select((c) => c.gameObject)
+                   .ToArray();
+
+        foreach (GameObject go in gameObjects) {
+            if (go.tag == "Traversable") {
+                return go;
+            }
+        }
+        return null;
+    }
+
     void Update()
     {
         if (currentMove == Move.None && moveQueue.Count > 0)

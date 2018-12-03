@@ -62,7 +62,7 @@ public class SoundManager : MonoBehaviour {
 
     }
 
-    public void Play(SoundName sound, float volume = 1f) {
+    public void Play(SoundName sound, float volume = 0.2f) {
         foreach (AudioBundle b in GlobalSources)
         {
             if (b.IsPlaying()) { continue; }
