@@ -3,7 +3,9 @@ guid: c659c39e4664dd24a90bf934b5dda4f7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - doorSound: {instanceID: 0}
+  - source: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

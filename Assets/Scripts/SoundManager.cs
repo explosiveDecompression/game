@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum SoundName {
-    RobotFootsteps
+    RobotFootsteps,
+    DoorWoosh01
 }
 
 [Serializable]

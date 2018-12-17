@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 444316dc2b0c84a2b8f177f987b97715
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player: {instanceID: 0}
+  - die: {instanceID: 0}
+  - ui: {instanceID: 0}
+  - tileLightPrefab: {fileID: 1200554954333814, guid: 1d6382cbc35ab9949ae1242da403ec58,
+      type: 2}
+  - panelPrefab: {fileID: 1142933879967822, guid: 6eafb2241debbf84989898589fbd048b,
+      type: 2}
+  - teleporterPrefab: {fileID: 1863997389587906, guid: 976ef3435f71eac47868e7575cc6e635,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

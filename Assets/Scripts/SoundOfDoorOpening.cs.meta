@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 6842831cd8b6ddd4c81fce2f45f38f0b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - DoorSoundsClip: {fileID: 8300000, guid: 07d710146dc717a48b61a90e9a382a7b, type: 3}
+  - DoorSoundsSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

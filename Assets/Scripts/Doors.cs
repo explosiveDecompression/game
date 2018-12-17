@@ -4,33 +4,38 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
-
+    public SoundName doorOpenSound;
+    public SoundName doorCloseSound;
     Animator animator;
-    bool doorOpen;
+    bool doorOpen = false;
 
     void Start()
     {
-        doorOpen = false;
         animator = GetComponent<Animator>();
     }
+
     void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
             doorOpen = true;
-            DoorControl ("Open");
-        }    
-    }
-
-    void OnTriggerExit (Collider col)
-    {
-       if (doorOpen)
-        {
-            doorOpen = false;
-            DoorControl ("Close");
+            DoorControl("Open");
+            SoundManager.instance.Play(doorOpenSound, 0.4f);
         }
     }
-    void DoorControl (string direction)
+
+    void OnTriggerExit(Collider col)
+    {
+        if (doorOpen)
+        {
+            doorOpen = false;
+            DoorControl("Close");
+            SoundManager.instance.Play(doorCloseSound, 0.1f);
+        }
+    }
+
+
+    void DoorControl(string direction)
     {
         animator.SetTrigger(direction);
     }
